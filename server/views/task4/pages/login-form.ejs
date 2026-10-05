@@ -1,0 +1,38 @@
+<div class="auth-page">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="auth-card">
+          <h1 class="auth-title">Welcome back</h1>
+          <p class="auth-subtitle">Log in to see your dashboard.</p>
+
+          <div class="alert alert-success d-none" id="loginFormAlert" role="status"></div>
+
+          <form id="loginForm" class="app-ajax-form" action="/task4/login" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control <%= errors.email ? 'is-invalid' : '' %>" id="email" name="email" value="<%= formData.email %>" autocomplete="email">
+              <div class="invalid-feedback" id="emailError"><%= errors.email || '' %></div>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control <%= errors.password ? 'is-invalid' : '' %>" id="password" name="password" autocomplete="current-password">
+              <div class="invalid-feedback" id="passwordError"><%= errors.password || '' %></div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 app-btn-cta">
+              <span class="btn-label">Log In</span>
+            </button>
+          </form>
+
+          <p class="auth-footnote">
+            Don't have an account? <a href="/task4/signup" data-router-link>Sign up</a>
+          </p>
+          <p class="auth-footnote auth-footnote-muted">
+            Note: real credential verification against stored accounts is completed
+            in Task 6. This form validates input and confirms receipt only.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

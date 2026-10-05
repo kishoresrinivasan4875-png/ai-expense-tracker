@@ -1,0 +1,102 @@
+<div class="expenses-page">
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="panel">
+          <h2 class="panel-title">Add Expense</h2>
+
+          <div class="alert alert-success d-none" id="expenseFormAlert" role="status"><%= typeof successMessage !== 'undefined' ? successMessage : '' %></div>
+
+          <form id="expenseForm" class="app-ajax-form" action="/task4/expenses" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= formData.title %>">
+              <div class="invalid-feedback" id="titleError"><%= errors.title || '' %></div>
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount (&#8377;)</label>
+              <input type="text" class="form-control <%= errors.amount ? 'is-invalid' : '' %>" id="amount" name="amount" value="<%= formData.amount %>">
+              <div class="invalid-feedback" id="amountError"><%= errors.amount || '' %></div>
+              <!-- Task 4: dynamic DOM update — live running-total preview -->
+              <div class="form-text" id="runningTotalPreview"></div>
+            </div>
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select <%= errors.category ? 'is-invalid' : '' %>" id="category" name="category">
+                <option value="">-- select category --</option>
+                <% categories.forEach(function(cat) { %>
+                  <option value="<%= cat %>" <%= formData.category === cat ? 'selected' : '' %>><%= cat %></option>
+                <% }); %>
+              </select>
+              <div class="invalid-feedback" id="categoryError"><%= errors.category || '' %></div>
+            </div>
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" class="form-control <%= errors.date ? 'is-invalid' : '' %>" id="date" name="date" value="<%= formData.date %>">
+              <div class="invalid-feedback" id="dateError"><%= errors.date || '' %></div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100 app-btn-cta">
+              <span class="btn-label">Add Expense</span>
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="panel">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+            <h2 class="panel-title mb-0">All Expenses</h2>
+          </div>
+
+          <!-- Task 4: dynamic DOM manipulation — live search + category filter -->
+          <div class="row g-2 mb-3" id="expenseFilters">
+            <div class="col-sm-7">
+              <input type="text" id="filterInput" class="form-control filter-input" placeholder="Search by title or category...">
+            </div>
+            <div class="col-sm-5">
+              <select id="filterCategory" class="form-select filter-input">
+                <option value="">All categories</option>
+                <% categories.forEach(function(cat) { %>
+                  <option value="<%= cat.toLowerCase() %>"><%= cat %></option>
+                <% }); %>
+              </select>
+            </div>
+          </div>
+
+          <div class="filtered-summary" id="filteredSummary">
+            Showing <strong id="filteredCount"><%= expenses.length %></strong> expense<span id="filteredCountPlural"><%= expenses.length === 1 ? '' : 's' %></span>
+            &middot; Filtered total: <strong id="filteredTotal">&#8377;<%= expenses.reduce(function(sum, e) { return sum + e.amount; }, 0).toLocaleString('en-IN') %></strong>
+          </div>
+
+          <% if (expenses.length === 0) { %>
+            <p class="empty-state" id="emptyExpensesState">No expenses stored yet. Add one on the left.</p>
+          <% } else { %>
+            <div class="table-responsive">
+              <table class="table app-table" id="expensesTable">
+                <thead>
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Date</th>
+                    <th class="text-end">Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% expenses.forEach(function(exp) { %>
+                    <tr data-title="<%= exp.title.toLowerCase() %>" data-category="<%= exp.category.toLowerCase() %>" data-amount="<%= exp.amount %>">
+                      <td><%= exp.title %></td>
+                      <td><span class="category-pill"><%= exp.category %></span></td>
+                      <td><%= exp.date %></td>
+                      <td class="text-end">&#8377;<%= exp.amount.toLocaleString('en-IN') %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+              </table>
+            </div>
+          <% } %>
+          <p class="empty-state d-none" id="noResults">No expenses match your filters.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

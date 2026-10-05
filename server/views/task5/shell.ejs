@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head-app') %>
+  <link rel="stylesheet" href="/css/task5.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark app-navbar sticky-top">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="/">
+        <i class="bi bi-wallet2 me-2"></i>AI Expense Tracker
+        <span class="badge app-task5-badge ms-2">Task 5</span>
+      </a>
+      <div class="d-flex gap-2">
+        <a class="btn btn-outline-light btn-sm" href="/task4"><i class="bi bi-grid me-1"></i>Task 4 App</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container py-5">
+    <div class="mb-4">
+      <h1 class="h3 mb-1">Live Expenses <span class="text-muted fw-normal">— Task 5: API Integration</span></h1>
+      <p class="text-muted mb-0">
+        This page holds no expense data of its own. Everything below is loaded from, and saved
+        through, the server's own REST API at <code>/api/expenses</code> using <code>fetch()</code>.
+      </p>
+    </div>
+
+    <!-- Global error banner for network/server failures. Hidden unless something goes wrong. -->
+    <div class="alert alert-danger d-none" id="apiErrorAlert" role="alert"></div>
+
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="panel">
+          <h2 class="panel-title mb-0" id="formTitle">Add Expense</h2>
+          <p class="form-hint mb-3">Saved with a real <code>POST /api/expenses</code> request.</p>
+
+          <div class="alert alert-success d-none" id="formSuccessAlert" role="status"></div>
+
+          <form id="expenseForm" novalidate>
+            <input type="hidden" id="editingId" value="">
+
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title" autocomplete="off">
+              <div class="invalid-feedback" id="titleError"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="amount" class="form-label">Amount (&#8377;)</label>
+              <input type="text" class="form-control" id="amount" name="amount" inputmode="decimal" autocomplete="off">
+              <div class="invalid-feedback" id="amountError"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select" id="category" name="category">
+                <option value="">-- select category --</option>
+                <% categories.forEach(function(cat) { %>
+                  <option value="<%= cat %>"><%= cat %></option>
+                <% }); %>
+              </select>
+              <div class="invalid-feedback" id="categoryError"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="date" class="form-label">Date</label>
+              <input type="date" class="form-control" id="date" name="date">
+              <div class="invalid-feedback" id="dateError"></div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="submit" class="btn btn-primary app-btn-cta flex-grow-1" id="submitBtn">
+                <span class="spinner-border spinner-border-sm d-none me-1" id="submitSpinner" role="status" aria-hidden="true"></span>
+                <span id="submitBtnLabel">Add Expense</span>
+              </button>
+              <button type="button" class="btn btn-outline-secondary d-none" id="cancelEditBtn">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-7">
+        <div class="panel">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+            <h2 class="panel-title mb-0">All Expenses</h2>
+            <button type="button" class="btn btn-sm btn-outline-primary" id="refreshBtn">
+              <i class="bi bi-arrow-clockwise me-1"></i>Refresh
+            </button>
+          </div>
+
+          <div class="filtered-summary mb-3" id="summaryLine">
+            <strong id="expenseCount">0</strong> expense<span id="expenseCountPlural">s</span>
+            &middot; Total: <strong id="expenseTotal">&#8377;0</strong>
+          </div>
+
+          <!-- Loading state: shown while the initial GET /api/expenses is in flight. -->
+          <div id="loadingState" class="loading-state">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading expenses&hellip;</span>
+            </div>
+            <p class="mt-2 mb-0 text-muted">Loading expenses from the API&hellip;</p>
+          </div>
+
+          <!-- Empty state: shown after a successful load that returned zero expenses. -->
+          <p class="empty-state d-none" id="emptyState">
+            No expenses yet. Add one on the left and it will appear here instantly.
+          </p>
+
+          <div class="table-responsive d-none" id="tableWrapper">
+            <table class="table app-table" id="expensesTable">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Date</th>
+                  <th class="text-end">Amount</th>
+                  <th class="text-end">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="expensesTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/scripts') %>
+  <script src="/js/task5-expenses.js"></script>
+</body>
+</html>

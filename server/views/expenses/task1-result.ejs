@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card">
+      <h1>Submission Received</h1>
+      <p class="subtitle">The server processed your form data and rendered this page with EJS.</p>
+
+      <table class="result-table">
+        <tr>
+          <th>Title</th>
+          <td><%= submittedExpense.title %></td>
+        </tr>
+        <tr>
+          <th>Amount</th>
+          <td><%= submittedExpense.amount %></td>
+        </tr>
+        <tr>
+          <th>Category</th>
+          <td><%= submittedExpense.category %></td>
+        </tr>
+        <tr>
+          <th>Date</th>
+          <td><%= submittedExpense.date %></td>
+        </tr>
+        <tr>
+          <th>Received at (server time)</th>
+          <td><%= submittedExpense.receivedAt %></td>
+        </tr>
+      </table>
+
+      <a href="/" class="back-link">&larr; Submit another</a>
+    </div>
+  </main>
+</body>
+</html>

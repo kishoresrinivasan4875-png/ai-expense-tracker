@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card">
+      <h1>Create Account</h1>
+      <p class="subtitle">Task 2 — Signup Validation Demo</p>
+
+      <form id="signupForm" action="/task2/signup" method="POST" novalidate class="task1-form">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="<%= formData.username %>">
+        <span class="field-error" id="usernameError"><%= errors.username || '' %></span>
+
+        <label for="email">Email</label>
+        <input type="text" id="email" name="email" value="<%= formData.email %>">
+        <span class="field-error" id="emailError"><%= errors.email || '' %></span>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+        <span class="field-error" id="passwordError"><%= errors.password || '' %></span>
+
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword">
+        <span class="field-error" id="confirmPasswordError"><%= errors.confirmPassword || '' %></span>
+
+        <button type="submit">Sign Up</button>
+      </form>
+
+      <p class="note">
+        Passwords are not stored or hashed at this stage — this page only proves
+        that client-side and server-side validation both work correctly. Real
+        account creation with password hashing is implemented in Task 6.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // Inline client-side validation (Task 2 requirement).
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+      var valid = true;
+
+      function setError(fieldId, message) {
+        document.getElementById(fieldId + 'Error').textContent = message;
+        if (message) valid = false;
+      }
+
+      var username = document.getElementById('username').value.trim();
+      setError('username', username.length === 0 ? 'Username is required.' : '');
+
+      var email = document.getElementById('email').value.trim();
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setError('email', !emailRegex.test(email) ? 'Please enter a valid email address.' : '');
+
+      var password = document.getElementById('password').value;
+      var passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{8,}$/;
+      setError(
+        'password',
+        !passwordRegex.test(password)
+          ? 'Password must be at least 8 characters and include a letter and a number.'
+          : ''
+      );
+
+      var confirmPassword = document.getElementById('confirmPassword').value;
+      setError('confirmPassword', password !== confirmPassword ? 'Passwords do not match.' : '');
+
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

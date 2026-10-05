@@ -1,0 +1,19 @@
+<div class="auth-page">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="auth-card text-center">
+          <div class="result-icon result-icon-success"><i class="bi bi-check-circle"></i></div>
+          <h1 class="auth-title">Credentials received</h1>
+          <p class="auth-subtitle">We received a login attempt for <strong><%= email %></strong>.</p>
+          <p class="auth-footnote auth-footnote-muted">
+            Real session-based authentication arrives in Task 6. For now this
+            confirms your input passed validation.
+          </p>
+          <a href="/task4/dashboard" class="btn btn-primary w-100 app-btn-cta" data-router-link>Go to Dashboard</a>
+          <a href="/task4/login" class="btn btn-link w-100 mt-2" data-router-link>Log in again</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="auth-page">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-lg-5">
+        <div class="auth-card text-center">
+          <div class="result-icon result-icon-success"><i class="bi bi-check-circle"></i></div>
+          <h1 class="auth-title">Account validated</h1>
+          <p class="auth-subtitle">
+            Welcome, <strong><%= username %></strong>! <strong><%= email %></strong> passed every
+            Task 4 validation rule, including the password strength check.
+          </p>
+          <a href="/task4/login" class="btn btn-primary w-100 app-btn-cta" data-router-link>Continue to Log In</a>
+          <a href="/task4/dashboard" class="btn btn-link w-100 mt-2" data-router-link>Go to Dashboard</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

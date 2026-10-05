@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head-app') %>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <main class="expenses-page">
+    <div class="container py-5">
+      <div class="row g-4">
+        <div class="col-lg-5">
+          <div class="panel">
+            <h2 class="panel-title">Add Expense</h2>
+            <form id="expenseForm" action="/task3/expenses" method="POST" novalidate>
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control <%= errors.title ? 'is-invalid' : '' %>" id="title" name="title" value="<%= formData.title %>">
+                <div class="invalid-feedback" id="titleError"><%= errors.title || '' %></div>
+              </div>
+              <div class="mb-3">
+                <label for="amount" class="form-label">Amount (&#8377;)</label>
+                <input type="text" class="form-control <%= errors.amount ? 'is-invalid' : '' %>" id="amount" name="amount" value="<%= formData.amount %>">
+                <div class="invalid-feedback" id="amountError"><%= errors.amount || '' %></div>
+              </div>
+              <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select <%= errors.category ? 'is-invalid' : '' %>" id="category" name="category">
+                  <option value="">-- select category --</option>
+                  <% categories.forEach(function(cat) { %>
+                    <option value="<%= cat %>" <%= formData.category === cat ? 'selected' : '' %>><%= cat %></option>
+                  <% }); %>
+                </select>
+                <div class="invalid-feedback" id="categoryError"><%= errors.category || '' %></div>
+              </div>
+              <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control <%= errors.date ? 'is-invalid' : '' %>" id="date" name="date" value="<%= formData.date %>">
+                <div class="invalid-feedback" id="dateError"><%= errors.date || '' %></div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 app-btn-cta">Add Expense</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="panel">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+              <h2 class="panel-title mb-0">All Expenses</h2>
+              <input type="text" id="filterInput" class="form-control filter-input" placeholder="Search by title or category...">
+            </div>
+
+            <% if (expenses.length === 0) { %>
+              <p class="empty-state">No expenses stored yet. Add one on the left.</p>
+            <% } else { %>
+              <div class="table-responsive">
+                <table class="table app-table" id="expensesTable">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Date</th>
+                      <th class="text-end">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% expenses.forEach(function(exp) { %>
+                      <tr data-title="<%= exp.title.toLowerCase() %>" data-category="<%= exp.category.toLowerCase() %>">
+                        <td><%= exp.title %></td>
+                        <td><span class="category-pill"><%= exp.category %></span></td>
+                        <td><%= exp.date %></td>
+                        <td class="text-end">&#8377;<%= exp.amount.toLocaleString('en-IN') %></td>
+                      </tr>
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+              <p class="empty-state d-none" id="noResults">No expenses match your search.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/scripts') %>
+
+  <script>
+    // Inline client-side validation — same rules as Task 2, presented with Bootstrap classes.
+    document.getElementById('expenseForm').addEventListener('submit', function (event) {
+      var valid = true;
+
+      function setError(fieldId, message) {
+        var input = document.getElementById(fieldId);
+        var errorEl = document.getElementById(fieldId + 'Error');
+        if (message) {
+          input.classList.add('is-invalid');
+          errorEl.textContent = message;
+          valid = false;
+        } else {
+          input.classList.remove('is-invalid');
+          errorEl.textContent = '';
+        }
+      }
+
+      var title = document.getElementById('title').value.trim();
+      setError('title', title.length === 0 ? 'Title is required.' : '');
+
+      var amount = document.getElementById('amount').value.trim();
+      var amountNum = Number(amount);
+      setError(
+        'amount',
+        (amount.length === 0 || isNaN(amountNum) || amountNum <= 0)
+          ? 'Amount must be a positive number.'
+          : ''
+      );
+
+      var category = document.getElementById('category').value;
+      setError('category', category.length === 0 ? 'Please select a category.' : '');
+
+      var date = document.getElementById('date').value;
+      setError('date', date.length === 0 ? 'Please provide a date.' : '');
+
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+
+    // Client-side search/filter — no page reload, no server round trip.
+    var filterInput = document.getElementById('filterInput');
+    if (filterInput) {
+      filterInput.addEventListener('input', function () {
+        var query = filterInput.value.trim().toLowerCase();
+        var rows = document.querySelectorAll('#expensesTable tbody tr');
+        var visibleCount = 0;
+
+        rows.forEach(function (row) {
+          var matches = row.dataset.title.indexOf(query) !== -1 ||
+            row.dataset.category.indexOf(query) !== -1;
+          row.classList.toggle('d-none', !matches);
+          if (matches) visibleCount++;
+        });
+
+        var noResults = document.getElementById('noResults');
+        if (noResults) {
+          noResults.classList.toggle('d-none', visibleCount !== 0);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

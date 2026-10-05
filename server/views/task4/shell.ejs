@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head-app') %>
+  <link rel="stylesheet" href="/css/task4.css">
+</head>
+<body>
+  <%- include('./partials/navbar') %>
+
+  <main id="app-content" class="app-content" data-active-page="<%= activePage %>">
+    <%- include('./pages/' + contentView) %>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/scripts') %>
+  <script src="/js/password-strength.js"></script>
+  <script src="/js/task4-app.js"></script>
+</body>
+</html>

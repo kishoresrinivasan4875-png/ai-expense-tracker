@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head-app') %>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <main class="auth-page">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="auth-card text-center">
+            <div class="result-icon"><i class="bi bi-check-circle"></i></div>
+            <h1 class="auth-title">Credentials Received</h1>
+            <p class="auth-subtitle">
+              We validated the login form for <strong><%= email %></strong>.
+            </p>
+            <p class="auth-footnote-muted">
+              Real password verification and session-based login are implemented in Task 6.
+            </p>
+            <a href="/task3" class="btn btn-primary app-btn-cta">Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/scripts') %>
+</body>
+</html>

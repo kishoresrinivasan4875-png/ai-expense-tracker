@@ -1,0 +1,85 @@
+<div class="dashboard-page">
+  <div class="container py-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-end mb-4 gap-3">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">A live snapshot of expenses currently in temporary storage.</p>
+      </div>
+      <a href="/task4/expenses" class="btn btn-primary app-btn-cta" data-router-link>
+        <i class="bi bi-plus-lg me-1"></i>Add Expense
+      </a>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-total"><i class="bi bi-wallet2"></i></div>
+          <div class="stat-label">Total Spent</div>
+          <div class="stat-value">&#8377;<%= total.toLocaleString('en-IN') %></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-month"><i class="bi bi-calendar3"></i></div>
+          <div class="stat-label">This Month</div>
+          <div class="stat-value">&#8377;<%= currentMonthTotal.toLocaleString('en-IN') %></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-count"><i class="bi bi-receipt"></i></div>
+          <div class="stat-label">Expenses Logged</div>
+          <div class="stat-value"><%= totalCount %></div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-cat"><i class="bi bi-tags"></i></div>
+          <div class="stat-label">Categories Used</div>
+          <div class="stat-value"><%= categoriesUsedCount %></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-7">
+        <div class="panel">
+          <h2 class="panel-title">Recent Expenses</h2>
+          <% if (recentExpenses.length === 0) { %>
+            <p class="empty-state">No expenses yet. <a href="/task4/expenses" data-router-link>Add your first one</a>.</p>
+          <% } else { %>
+            <ul class="recent-list">
+              <% recentExpenses.forEach(function(exp) { %>
+                <li>
+                  <div>
+                    <div class="recent-title"><%= exp.title %></div>
+                    <div class="recent-meta"><%= exp.category %> &middot; <%= exp.date %></div>
+                  </div>
+                  <div class="recent-amount">&#8377;<%= exp.amount.toLocaleString('en-IN') %></div>
+                </li>
+              <% }); %>
+            </ul>
+          <% } %>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="panel">
+          <h2 class="panel-title">By Category</h2>
+          <ul class="category-list">
+            <% Object.keys(categoryTotals).forEach(function(cat) { %>
+              <li>
+                <div class="category-row">
+                  <span><%= cat %></span>
+                  <span>&#8377;<%= categoryTotals[cat].toLocaleString('en-IN') %></span>
+                </div>
+                <div class="category-bar">
+                  <div class="category-bar-fill" style="width: <%= maxCategoryTotal > 0 ? Math.round((categoryTotals[cat] / maxCategoryTotal) * 100) : 0 %>%;"></div>
+                </div>
+              </li>
+            <% }); %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

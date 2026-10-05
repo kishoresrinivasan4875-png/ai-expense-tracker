@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head-app') %>
+</head>
+<body>
+  <%- include('../partials/navbar') %>
+
+  <main class="auth-page">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="auth-card">
+            <h1 class="auth-title">Welcome back</h1>
+            <p class="auth-subtitle">Log in to see your dashboard.</p>
+
+            <form id="loginForm" action="/task3/login" method="POST" novalidate>
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="text" class="form-control <%= errors.email ? 'is-invalid' : '' %>" id="email" name="email" value="<%= formData.email %>">
+                <div class="invalid-feedback" id="emailError"><%= errors.email || '' %></div>
+              </div>
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control <%= errors.password ? 'is-invalid' : '' %>" id="password" name="password">
+                <div class="invalid-feedback" id="passwordError"><%= errors.password || '' %></div>
+              </div>
+              <button type="submit" class="btn btn-primary w-100 app-btn-cta">Log In</button>
+            </form>
+
+            <p class="auth-footnote">
+              Don't have an account? <a href="/task3/signup">Sign up</a>
+            </p>
+            <p class="auth-footnote auth-footnote-muted">
+              Note: real credential verification against stored accounts is completed
+              in Task 6. This form validates input and confirms receipt only.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer') %>
+  <%- include('../partials/scripts') %>
+
+  <script>
+    // Inline client-side validation (same email-format rule used across the app).
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+      var valid = true;
+
+      function setError(fieldId, message) {
+        var input = document.getElementById(fieldId);
+        var errorEl = document.getElementById(fieldId + 'Error');
+        if (message) {
+          input.classList.add('is-invalid');
+          errorEl.textContent = message;
+          valid = false;
+        } else {
+          input.classList.remove('is-invalid');
+          errorEl.textContent = '';
+        }
+      }
+
+      var email = document.getElementById('email').value.trim();
+      var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      setError('email', !emailRegex.test(email) ? 'Please enter a valid email address.' : '');
+
+      var password = document.getElementById('password').value;
+      setError('password', password.trim().length === 0 ? 'Password is required.' : '');
+
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

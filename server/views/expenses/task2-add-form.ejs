@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card">
+      <h1>Add Expense</h1>
+      <p class="subtitle">Task 2 — Client + Server Validation, Temporary Storage</p>
+
+      <form id="expenseForm" action="/task2/expenses" method="POST" novalidate class="task1-form">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="<%= formData.title %>">
+        <span class="field-error" id="titleError"><%= errors.title || '' %></span>
+
+        <label for="amount">Amount (₹)</label>
+        <input type="text" id="amount" name="amount" value="<%= formData.amount %>">
+        <span class="field-error" id="amountError"><%= errors.amount || '' %></span>
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">-- select category --</option>
+          <% categories.forEach(function(cat) { %>
+            <option value="<%= cat %>" <%= formData.category === cat ? 'selected' : '' %>><%= cat %></option>
+          <% }); %>
+        </select>
+        <span class="field-error" id="categoryError"><%= errors.category || '' %></span>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" value="<%= formData.date %>">
+        <span class="field-error" id="dateError"><%= errors.date || '' %></span>
+
+        <button type="submit">Add Expense</button>
+      </form>
+
+      <p class="note">
+        <a href="/task2/expenses">View stored expenses (temporary storage) &rarr;</a>
+      </p>
+      <p class="note">
+        Validation runs twice: first in your browser (inline JavaScript below, for
+        instant feedback), then again on the server — because browser validation
+        can always be bypassed and must never be trusted alone.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // Inline client-side validation (Task 2 requirement).
+    // This never replaces server-side validation — only gives faster feedback.
+    document.getElementById('expenseForm').addEventListener('submit', function (event) {
+      var valid = true;
+
+      function setError(fieldId, message) {
+        document.getElementById(fieldId + 'Error').textContent = message;
+        if (message) valid = false;
+      }
+
+      var title = document.getElementById('title').value.trim();
+      setError('title', title.length === 0 ? 'Title is required.' : '');
+
+      var amount = document.getElementById('amount').value.trim();
+      var amountNum = Number(amount);
+      setError(
+        'amount',
+        (amount.length === 0 || isNaN(amountNum) || amountNum <= 0)
+          ? 'Amount must be a positive number.'
+          : ''
+      );
+
+      var category = document.getElementById('category').value;
+      setError('category', category.length === 0 ? 'Please select a category.' : '');
+
+      var date = document.getElementById('date').value;
+      setError('date', date.length === 0 ? 'Please provide a date.' : '');
+
+      if (!valid) {
+        event.preventDefault();
+      }
+    });
+  </script>
+</body>
+</html>

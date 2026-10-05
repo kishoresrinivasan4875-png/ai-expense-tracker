@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card task2-card-wide">
+      <h1>Stored Expenses</h1>
+      <p class="subtitle">
+        Temporary in-memory storage (Task 2). This list resets whenever the
+        server restarts — Task 6 replaces it with MongoDB.
+      </p>
+
+      <% if (expenses.length === 0) { %>
+        <p class="empty-state">No expenses stored yet.</p>
+      <% } else { %>
+        <table class="result-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Title</th>
+              <th>Amount</th>
+              <th>Category</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% expenses.forEach(function(exp) { %>
+              <tr>
+                <td><%= exp.id %></td>
+                <td><%= exp.title %></td>
+                <td>&#8377;<%= exp.amount %></td>
+                <td><%= exp.category %></td>
+                <td><%= exp.date %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+
+      <a href="/task2/expenses/new" class="back-link">&larr; Add another expense</a>
+    </div>
+  </main>
+</body>
+</html>

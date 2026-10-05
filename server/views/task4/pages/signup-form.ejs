@@ -1,0 +1,69 @@
+<div class="auth-page">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 col-lg-5">
+        <div class="auth-card">
+          <h1 class="auth-title">Create your account</h1>
+          <p class="auth-subtitle">Start tracking your spending in minutes.</p>
+
+          <form id="signupForm" class="app-ajax-form" action="/task4/signup" method="POST" novalidate>
+            <div class="mb-3">
+              <label for="username" class="form-label">Username</label>
+              <input type="text" class="form-control <%= errors.username ? 'is-invalid' : '' %>" id="username" name="username" value="<%= formData.username %>" autocomplete="username">
+              <div class="invalid-feedback" id="usernameError"><%= errors.username || '' %></div>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="text" class="form-control <%= errors.email ? 'is-invalid' : '' %>" id="email" name="email" value="<%= formData.email %>" autocomplete="email">
+              <div class="invalid-feedback" id="emailError"><%= errors.email || '' %></div>
+            </div>
+
+            <div class="mb-2">
+              <label for="password" class="form-label">Password</label>
+              <div class="password-field">
+                <input type="password" class="form-control <%= errors.password ? 'is-invalid' : '' %>" id="password" name="password" autocomplete="new-password">
+                <button type="button" class="password-toggle" id="togglePassword" aria-label="Show password" tabindex="-1">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div class="invalid-feedback" id="passwordError"><%= errors.password || '' %></div>
+            </div>
+
+            <!-- Task 4: real-time password strength meter -->
+            <div class="password-strength-meter" id="passwordStrengthMeter" aria-live="polite">
+              <div class="strength-bar">
+                <div class="strength-bar-fill" id="strengthBarFill"></div>
+              </div>
+              <div class="strength-label" id="strengthLabel">Password strength</div>
+              <ul class="strength-rules" id="strengthRules">
+                <li data-rule="minLength"><i class="bi bi-circle"></i> At least 8 characters</li>
+                <li data-rule="hasUppercase"><i class="bi bi-circle"></i> One uppercase letter</li>
+                <li data-rule="hasLowercase"><i class="bi bi-circle"></i> One lowercase letter</li>
+                <li data-rule="hasNumber"><i class="bi bi-circle"></i> One number</li>
+                <li data-rule="hasSpecialChar"><i class="bi bi-circle"></i> One special character</li>
+              </ul>
+            </div>
+
+            <div class="mb-3 mt-3">
+              <label for="confirmPassword" class="form-label">Confirm Password</label>
+              <input type="password" class="form-control <%= errors.confirmPassword ? 'is-invalid' : '' %>" id="confirmPassword" name="confirmPassword" autocomplete="new-password">
+              <div class="invalid-feedback" id="confirmPasswordError"><%= errors.confirmPassword || '' %></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 app-btn-cta">
+              <span class="btn-label">Sign Up</span>
+            </button>
+          </form>
+
+          <p class="auth-footnote">
+            Already have an account? <a href="/task4/login" data-router-link>Log in</a>
+          </p>
+          <p class="auth-footnote auth-footnote-muted">
+            Note: passwords are validated but not yet hashed or permanently stored —
+            real accounts with password hashing arrive in Task 6.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

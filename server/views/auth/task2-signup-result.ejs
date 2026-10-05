@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card">
+      <h1>Validation Passed</h1>
+      <p class="subtitle">The server accepted this signup data:</p>
+
+      <table class="result-table">
+        <tr>
+          <th>Username</th>
+          <td><%= username %></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><%= email %></td>
+        </tr>
+      </table>
+
+      <a href="/task2/signup" class="back-link">&larr; Try another signup</a>
+    </div>
+  </main>
+</body>
+</html>

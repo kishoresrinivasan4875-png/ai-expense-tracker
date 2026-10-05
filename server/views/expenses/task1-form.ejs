@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('../partials/head') %>
+</head>
+<body>
+  <main class="task1-page">
+    <div class="task1-card">
+      <h1>AI Expense Tracker</h1>
+      <p class="subtitle">Task 1 — Basic Server Interaction Demo</p>
+
+      <form action="/quick-add" method="POST" class="task1-form">
+        <label for="title">Expense title</label>
+        <input type="text" id="title" name="title" placeholder="e.g. Groceries">
+
+        <label for="amount">Amount (₹)</label>
+        <input type="text" id="amount" name="amount" placeholder="e.g. 500">
+
+        <label for="category">Category</label>
+        <select id="category" name="category">
+          <option value="">-- select category --</option>
+          <% categories.forEach(function(cat) { %>
+            <option value="<%= cat %>"><%= cat %></option>
+          <% }); %>
+        </select>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date">
+
+        <button type="submit">Submit</button>
+      </form>
+
+      <p class="note">
+        This form intentionally has no validation yet — that is added in Task 2.
+        Its only job right now is to prove the HTML → Express → EJS round trip works.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

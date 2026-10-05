@@ -1,0 +1,83 @@
+/* ============================================================
+   Task 5 — API Integration and Front-End Interaction
+   Scoped to /task5/* pages only. Reuses the CSS variables and
+   .panel / .app-table / .category-pill / .app-btn-cta classes
+   already defined in task3.css (loaded before this file) rather
+   than redefining them.
+   ============================================================ */
+
+.app-task5-badge {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.65rem;
+  vertical-align: middle;
+}
+
+.form-hint {
+  font-size: 0.8rem;
+  color: var(--app-text-muted, #6b7280);
+}
+
+/* ---------- Summary line above the expenses table ---------- */
+
+.filtered-summary {
+  font-size: 0.85rem;
+  color: var(--app-text-muted, #6b7280);
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--app-primary-soft, rgba(37, 99, 235, 0.08));
+  border-radius: var(--app-radius-sm, 8px);
+}
+
+.filtered-summary strong {
+  color: var(--app-text, #1f2937);
+}
+
+/* ---------- Loading state ---------- */
+
+.loading-state {
+  text-align: center;
+  padding: 2.5rem 0;
+}
+
+/* ---------- Table action buttons ---------- */
+
+.app-table .btn-outline-primary,
+.app-table .btn-outline-danger {
+  padding: 0.25rem 0.55rem;
+}
+
+.app-table tbody tr[data-id] {
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+/* ---------- Field-level validation (mirrors task4.css) ---------- */
+
+.is-invalid ~ .invalid-feedback,
+.form-control.is-invalid,
+.form-select.is-invalid {
+  display: block;
+}
+
+.invalid-feedback {
+  display: none;
+  font-size: 0.8rem;
+}
+
+.form-control.is-invalid ~ .invalid-feedback,
+.form-select.is-invalid ~ .invalid-feedback {
+  display: block;
+}
+
+/* ---------- API error banner ---------- */
+
+#apiErrorAlert {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 767.98px) {
+  .filtered-summary {
+    font-size: 0.85rem;
+  }
+}

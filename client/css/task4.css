@@ -1,0 +1,144 @@
+/* ============================================================
+   Task 4 — Complex Form Validation and Dynamic DOM Manipulation
+   Scoped to /task4/* pages only. client/css/style.css and
+   client/css/task3.css are untouched by this file.
+   ============================================================ */
+
+.app-task4-badge {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.65rem;
+  vertical-align: middle;
+}
+
+/* ---------- Client-side routing: content fade transition ---------- */
+
+.app-content {
+  transition: opacity 0.12s ease;
+  opacity: 1;
+}
+
+.app-content.is-transitioning {
+  opacity: 0;
+}
+
+/* ---------- Password strength meter ---------- */
+
+.password-field {
+  position: relative;
+}
+
+.password-field .form-control {
+  padding-right: 2.75rem;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.6rem;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  color: var(--app-text-muted, #6b7280);
+  cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  color: var(--app-primary, #2563eb);
+}
+
+.password-strength-meter {
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.strength-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.strength-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: #d1d5db;
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.password-strength-meter.strength-weak .strength-bar-fill { background: #ef4444; }
+.password-strength-meter.strength-fair .strength-bar-fill { background: #f59e0b; }
+.password-strength-meter.strength-good .strength-bar-fill { background: #3b82f6; }
+.password-strength-meter.strength-strong .strength-bar-fill { background: #22c55e; }
+
+.strength-label {
+  font-size: 0.8rem;
+  color: var(--app-text-muted, #6b7280);
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+
+.password-strength-meter.strength-weak .strength-label { color: #ef4444; }
+.password-strength-meter.strength-fair .strength-label { color: #b45309; }
+.password-strength-meter.strength-good .strength-label { color: #2563eb; }
+.password-strength-meter.strength-strong .strength-label { color: #16a34a; }
+
+.strength-rules {
+  list-style: none;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.25rem 0.75rem;
+}
+
+.strength-rules li {
+  font-size: 0.78rem;
+  color: var(--app-text-muted, #6b7280);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.strength-rules li i {
+  font-size: 0.9rem;
+}
+
+.strength-rules li.rule-passed {
+  color: #16a34a;
+}
+
+/* ---------- Result icon (login/signup result pages) ---------- */
+
+.result-icon {
+  font-size: 2.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.result-icon-success {
+  color: #22c55e;
+}
+
+/* ---------- Live expense filtering & totals ---------- */
+
+.filtered-summary {
+  font-size: 0.85rem;
+  color: var(--app-text-muted, #6b7280);
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--app-primary-soft, rgba(37, 99, 235, 0.08));
+  border-radius: var(--app-radius-sm, 8px);
+}
+
+.filtered-summary strong {
+  color: var(--app-text, #1f2937);
+}
+
+#runningTotalPreview {
+  color: var(--app-primary, #2563eb);
+  font-weight: 600;
+}
